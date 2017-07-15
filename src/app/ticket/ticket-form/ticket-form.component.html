@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-6">
+    <form (ngSubmit)="onSave()" [formGroup]="formTemplate">
+      <div class="form-group">
+        <label for="name">Ticket Name</label>
+        <input type="text" formControlName="name" id="name" name="name" class="form-control">
+        <span class="help-block" *ngIf="!formTemplate.get('name').valid && formTemplate.get('name').touched">Please enter a valid ticket name!</span>
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content</label>
+        <input type="text" formControlName="content" id="content" name="content" class="form-control">
+        <span class="help-block" *ngIf="!formTemplate.get('content').valid && formTemplate.get('content').touched">Please enter valid content!</span>
+      </div>
+
+      <div class="form-group">
+        <label for="secret">Secret Question</label>
+        <select name="secret" formControlName="secret" id="secret" class="form-control">
+          <option value=""></option>
+          <option value="pet">What is your favourite pet?</option>
+          <option value="car">What is your favourite car?</option>
+        </select>
+      </div>
+
+      <span class="pull-right">
+        <button class="btn btn-primary" type="submit" [disabled]="!formTemplate.valid">Save</button>
+      </span>
+    </form>
+  </div>
+</div>

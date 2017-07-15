@@ -1,0 +1,1 @@
+This web app is built using AngularJS 2 and the Bootstrap CSS framework.
