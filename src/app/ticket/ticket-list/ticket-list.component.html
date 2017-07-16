@@ -1,8 +1,9 @@
 <div class="list-group">
-  <a *ngFor="let ticket of tickets" [routerLink]="['/tickets', 'edit', ticket.id]" routerLinkActive="active" class="list-group-item">
+  <a *ngFor="let ticket of tickets" [routerLink]="['/tickets', 'detailview', ticket.id]" routerLinkActive="active" class="list-group-item">
     <h4 class="list-group-item-heading">{{ ticket.name }}</h4>
     <p class="list-group-item-text">
-      <b>Status: </b> {{ ticket.status }} | <b>Priority: </b> {{ ticket.priority }}
+      <b>Status: </b> {{ ticket.status }} | <b>Priority: </b> {{ ticket.priority }} <br>
+      <b>Assigned To: {{ ticket.assigned_user_id }}</b>
     </p>
   </a>
 </div>

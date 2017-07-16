@@ -1,3 +1,41 @@
-<p>
-  ticket-detailview works!
-</p>
+<div class="page-header">
+  <h3>{{ ts.ticket.name }}</h3>
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <b>Status</b> <br>
+    {{ ts.ticket.status }}
+  </div>
+  <div class="col-sm-4">
+    <b>Assigned To</b> <br>
+    {{ ts.ticket.assigned_user_id }}
+  </div>
+  <div class="col-sm-4">
+    <b>Priority</b> <br>
+    {{ ts.ticket.priority }}
+  </div>
+
+  <div class="col-sm-4">
+    <b>Date Created</b> <br>
+    {{ date_created_formatted }}
+  </div>
+  <div class="col-sm-4">
+    <b>Date Modified</b> <br>
+    {{ ts.ticket.date_modified }}
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+  <div class="col-sm-12">
+    <div class="content">
+      {{ ts.ticket.content }}
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+  <div class="col-sm-12">
+    <button class="btn btn-primary" routerLink="/tickets/edit/{{ ts.ticket.id }}">Edit Ticket</button>
+  </div>
+</div>

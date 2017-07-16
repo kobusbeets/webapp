@@ -17,48 +17,51 @@ import { Ticket } from '../ticket.model';
 })
 export class TicketFormComponent implements OnInit {
 
-  //ticket: Ticket;
-
   formTemplate: FormGroup;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private ts: TicketService) { }
 
   ngOnInit() {
+    //create the form data bindings
+    this.formTemplate = new FormGroup({
+      'name': new FormControl(this.ts.ticket.name, Validators.required),
+      'content': new FormControl(this.ts.ticket.content, Validators.required),
+      'status': new FormControl(this.ts.ticket.status, Validators.required),
+      'assigned_user_id': new FormControl(this.ts.ticket.assigned_user_id),
+      'priority': new FormControl(this.ts.ticket.priority, Validators.required)
+    }); 
+
     //get the ticket id from the url
     this.activatedRoute.params.subscribe(
       (params) => {
         if(params['id'] !== 'new') {
+          //get a ticket from the api
           this.ts.getTicket(+params['id']).then(() => {
-            //check if the form template is already created
+            //check if the form template object is already created
             if(this.formTemplate) {
               //update the form template data
               this.formTemplate.patchValue(this.ts.ticket);
             }
           });
         } else {
+          //create and edit a new ticket
           this.ts.ticket = new Ticket();
         }
       }
     );
-    
-    this.formTemplate = new FormGroup({
-      'name': new FormControl(this.ts.ticket.name, Validators.required),
-      'content': new FormControl(this.ts.ticket.content, Validators.required),
-      'secret': new FormControl('pet')
-    }); 
   }
 
-  onSave() { //(form: NgForm) {
+  onSave() {
     if(!this.ts.ticket.id) {
       //create a new ticket resource
       this.ts.createTicket(this.formTemplate.value).then(
         data => {
+          //reopen the created ticket
           this.router.navigate(['tickets', 'edit', this.ts.ticket.id]);
         }
       );
     } else {
       //update an existing ticket resource
-      console.log('this is an existing ticket');
       this.ts.updateTicket(this.formTemplate.value).then(
         data => {
           //this.router.navigate(['tickets', 'edit', this.ts.ticket.id]);
