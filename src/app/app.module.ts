@@ -11,6 +11,7 @@ import { RemoteService } from './shared/remote.service';
 import { TicketService } from './ticket/ticket.service';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
+import { UtilsService } from './shared/utils.service';
 
 import { AppComponent } from './app.component';
 import { TicketComponent } from './ticket/ticket.component';
@@ -54,7 +55,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   providers: [
     RemoteService,
-    AuthService, AuthGuardService
+    AuthService, AuthGuardService,
+    UtilsService
   ],
   bootstrap: [AppComponent]
 })
