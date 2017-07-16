@@ -7,6 +7,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class RemoteService {
 
+  //the api service url
   serviceUrl: string = 'http://localhost/datacom/api/';
 
   headers: Headers;
@@ -15,20 +16,27 @@ export class RemoteService {
 
   constructor(private http: Http) { }
 
-  updateRequestHeaders() {
-    //get from local storage
+  updateRequestHeaders(headers = null) {
+    //get default headers from local storage
     this.headers = new Headers({
       'Content-Type': 'application/json',
-      'UserName': localStorage.getItem('UserName'),
-      'UserPassword': localStorage.getItem('UserPassword'),
       'AuthToken': localStorage.getItem('AuthToken')
     });
 
+    //add additional headers when needed
+    if(headers) {
+      for(let key in headers) {
+        this.headers.append(key, headers[key]);
+      }
+    }
+
+    //set the request options
     this.options = new RequestOptions({ headers: this.headers });
   }
 
-  post(uri, data) {
-    this.updateRequestHeaders();
+  //make a post request to the api endpoint
+  post(uri, data, headers = null) {
+    this.updateRequestHeaders(headers);
 
     return this.http.post(this.serviceUrl + uri, data, this.options).map(
       (response: Response) => {
@@ -42,8 +50,8 @@ export class RemoteService {
   /**
    * The get() method sends a get request to a web service and returns a promise.
    */
-  get(uri) {
-    this.updateRequestHeaders();
+  get(uri, headers = null) {
+    this.updateRequestHeaders(headers);
     //transform the data using the map method from 'rxjs/Rx'
     return this.http.get(this.serviceUrl + uri, this.options).map(
       (response: Response) => {
@@ -54,8 +62,8 @@ export class RemoteService {
     ).toPromise();
   }
 
-  put(uri, data) {
-    this.updateRequestHeaders();
+  put(uri, data, headers = null) {
+    this.updateRequestHeaders(headers);
 
     return this.http.put(this.serviceUrl + uri, data, this.options).map(
       (response: Response) => {
