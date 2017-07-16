@@ -13,6 +13,7 @@ export class AuthService {
 
   constructor(private rs: RemoteService) { }
 
+  //send a signup request to the signup api endpoint
   onSignup(data) {
     return this.rs.post('signup', data).then(
       response => {
@@ -21,12 +22,21 @@ export class AuthService {
     );
   }
 
-  onSignin(data) {
-    return this.rs.post('signin', data).then(
+  //sign in by passing form values as headers
+  onSignin(headers) {
+    //send a post request to sign the user in
+    return this.rs.post('signin', {}, headers).then(
       response => {
-
+        //check if the user successfully logged in
         if(response.status) {
           this.isAuthenticated = true;
+
+          //store the auth token in the local storage
+          localStorage.setItem('AuthToken', response.data.token);
+        } else {
+          //authentication failed so we want to log the user out
+          this.isAuthenticated = false;
+          localStorage.setItem('AuthToken', null);
         }
 
         return response;
@@ -36,9 +46,9 @@ export class AuthService {
 
   onSignout() {
     this.isAuthenticated = false;
-    localStorage.setItem('AuthToken', '');
-    localStorage.setItem('UserName', '');
-    localStorage.setItem('UserPassword', '');
+    localStorage.setItem('AuthToken', null);
+    //localStorage.setItem('UserName', '');
+    //localStorage.setItem('UserPassword', '');
     this.user = new User(); //clear the user object
   }
 

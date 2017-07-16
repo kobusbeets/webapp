@@ -26,13 +26,14 @@ export class SigninComponent implements OnInit {
   onSignin() {
     this.signinInProgress = true;
     
-    localStorage.setItem('UserName', this.formTemplate.value.username);
-    localStorage.setItem('UserPassword', this.formTemplate.value.password);
+    //localStorage.setItem('UserName', this.formTemplate.value.username);
+    //localStorage.setItem('UserPassword', this.formTemplate.value.password);
 
-    this.as.onSignin({}).then(response => {
+    this.as.onSignin({
+      'UserName': this.formTemplate.value.username,
+      'UserPassword': this.formTemplate.value.password
+    }).then(response => {
       this.signinInProgress = false;
-      //redirect the user
-      localStorage.setItem('AuthToken', response.data.token);
 
       this.router.navigate(['/dashboard']);
     });
